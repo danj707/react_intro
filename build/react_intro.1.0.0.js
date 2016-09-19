@@ -49,29 +49,54 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(34);
 	
-	var Person = function Person() {
-	    var name = 'Derek Zoolander';
-	    var imageUrl = 'http://uifaces.com/assets/static/images/zoolander.jpg';
-	    var job = 'Male model';
+	var Person = React.createClass({
+	    displayName: 'Person',
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            highlight: false
+	        };
+	    },
+	    onClick: function onClick() {
+	        this.setState({
+	            highlight: !this.state.highlight
+	        });
+	    },
+	    render: function render() {
+	        var classes = 'person ' + (this.state.highlight ? 'highlight' : '');
+	        return React.createElement(
+	            'div',
+	            { className: classes, onClick: this.onClick },
+	            React.createElement(
+	                'div',
+	                { className: 'person-name' },
+	                this.props.name
+	            ),
+	            React.createElement('img', { className: 'person-img', src: this.props.imageUrl }),
+	            React.createElement(
+	                'div',
+	                { className: 'person-job' },
+	                this.props.job
+	            )
+	        );
+	    }
+	});
+	
+	var PersonList = function PersonList() {
 	    return React.createElement(
 	        'div',
-	        { className: 'person' },
-	        React.createElement(
-	            'div',
-	            { className: 'person-name' },
-	            name
-	        ),
-	        React.createElement('img', { className: 'person-img', src: imageUrl }),
-	        React.createElement(
-	            'div',
-	            { className: 'person-job' },
-	            job
-	        )
+	        { className: 'person-list' },
+	        React.createElement(Person, { name: 'Derek Zoolander',
+	            imageUrl: 'http://uifaces.com/assets/static/images/zoolander.jpg',
+	            job: 'Male model' }),
+	        React.createElement(Person, { name: 'Donald Knuth',
+	            imageUrl: 'http://www-cs-faculty.stanford.edu/~uno/don.gif',
+	            job: 'Clever chap' })
 	    );
 	};
 	
 	document.addEventListener('DOMContentLoaded', function () {
-	    ReactDOM.render(React.createElement(Person, null), document.getElementById('app'));
+	    ReactDOM.render(React.createElement(PersonList, null), document.getElementById('app'));
 	});
 
 /***/ },
